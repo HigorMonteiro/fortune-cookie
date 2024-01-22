@@ -1,12 +1,24 @@
 import React from 'react';
-
-const PhrasesList = ({ phrase }) => {
+import './Phrase.css';
+const PhrasesList = ({ phrase, language }) => {
+    const getIcon = (language) => {
+        switch (language) {
+            case 'English':
+                return '🇺🇸';
+            case 'Spanish':
+                return '🇪🇸';
+            case 'Brazilian':
+                return '🇧🇷';
+            default:
+                return '';
+        }
+    };
 
     return (
         <>
-            <p>
-                {phrase}
-            </p>
+        <div className='phrase'>
+            <p>{phrase} {getIcon(language)}</p>
+        </div>
         </>
     );
 };

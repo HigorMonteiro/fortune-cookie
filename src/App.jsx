@@ -19,6 +19,8 @@ function App() {
   const [language, setLanguage] = useState('English')
 
   const handleCookieClick = () => {
+    if (isCookieOpened) return;
+
     setCookieOpened(true);
     document.body.classList.add('shake');
     setTimeout(() => document.body.classList.remove('shake'), 500);
@@ -52,12 +54,12 @@ function App() {
   return (
     <>
     { isCookieOpened == false && (
-      <button className='language-button' onClick={() => setModelOpen(true)}>Select Language</button>
+      <div>
+        <button className='language-button' onClick={() => setModelOpen(true)}>Select Language</button>
+        <p>{getIcon(language)} - {language}</p>
+      </div>
     )
     }
-      <p>
-        {getIcon(language)} - {language}
-      </p>
       {isModelOpen && ( 
        <div className='model'>
         <button onClick={() => handleLanguageChange('English')}>English</button>
