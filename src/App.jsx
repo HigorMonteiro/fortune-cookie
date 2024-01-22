@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import cookie from './assets/fortune-cookie.png'
 import openCookie from './assets/opened-cookie.png'
 import fortuneIcon from './assets/trevo-icon.png'
@@ -17,18 +17,25 @@ function App() {
   const [isPhrase, setPhrase] = useState('')
   const [isModelOpen, setModelOpen] = useState(false)
   const [language, setLanguage] = useState('English')
+  const [cookieCount, setCookieCount] = useState(0);
+  const [cookieBreak, setCookie] = useState('')
+
 
   const handleCookieClick = () => {
     if (isCookieOpened) return;
 
     setCookieOpened(true);
     document.body.classList.add('shake');
+    setCookieCount(prevCount => prevCount + 1);
     setTimeout(() => document.body.classList.remove('shake'), 500);
 
     let randomPhrase = phrases[language][Math.floor(Math.random() * phrases[language].length)];
-    console.log(randomPhrase);
     isPhrase ? setPhrase('') : setPhrase(randomPhrase);
   }
+
+  useEffect(() => {
+    setCookie(cookieCount > 0 ? openCookie : cookieBreak);
+  }, [cookieCount]);
 
   const handleLanguageChange = (newLanguage) => {
     setLanguage(newLanguage);
@@ -78,6 +85,13 @@ function App() {
           {isCookieOpened && (
             <Phrase phrase={isPhrase} language={language} />
           )}
+          <p>
+            {cookieCount > 0 && (
+              <span>
+                You've opened {cookieCount} cookies.
+              </span>
+            )}
+          </p>
         </p>
       </div>
     </>
